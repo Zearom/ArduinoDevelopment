@@ -7,7 +7,7 @@ Module Module1
 
         SerialPort1.Close()
         SerialPort1.PortName = "com3" 'change com port to match your Arduino port
-        SerialPort1.BaudRate = 19200
+        SerialPort1.BaudRate = 9600
         SerialPort1.DataBits = 8
         SerialPort1.Parity = Parity.None
         SerialPort1.StopBits = StopBits.One
@@ -17,7 +17,7 @@ Module Module1
         While True
             Console.Write(">")
 
-            Dim byteLength As Integer = 8
+            Dim byteLength As Integer = 4
 
             Dim currentCommand As String = Console.ReadLine()
             Console.WriteLine(String.Format("Sending ""{0}""", currentCommand))
@@ -96,6 +96,8 @@ Module Module1
                     SerialPort1.Write(Module1.getLed(False, True, False, False, False, False, False, False, False, False, False), 0, byteLength)
                     Threading.Thread.Sleep(10)
                     SerialPort1.Write(Module1.getLed(True, False, False, False, False, False, False, False, False, False, False), 0, byteLength)
+                    Threading.Thread.Sleep(10)
+                    SerialPort1.Write(Module1.getLed(False, False, False, False, False, False, False, False, False, False, False), 0, byteLength)
                 Next
 
                 SerialPort1.Close()
@@ -154,28 +156,28 @@ Module Module1
     Public Function getLedRow(led1 As Boolean, led2 As Boolean, led3 As Boolean, led4 As Boolean, led5 As Boolean, led6 As Boolean, led7 As Boolean, led8 As Boolean) As Byte
         Dim result As Int16 = 0
 
-        If led1 Then
+        If led8 Then
             result += 1
         End If
-        If led2 Then
+        If led7 Then
             result += 2
         End If
-        If led3 Then
+        If led6 Then
             result += 4
         End If
-        If led4 Then
+        If led5 Then
             result += 8
         End If
-        If led5 Then
+        If led4 Then
             result += 16
         End If
-        If led6 Then
+        If led3 Then
             result += 32
         End If
-        If led7 Then
+        If led2 Then
             result += 64
         End If
-        If led8 Then
+        If led1 Then
             result += 128
         End If
 

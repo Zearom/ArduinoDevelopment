@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA8A8D27-855D-42B2-B08E-E59C6DCE24C9}</ProjectGuid>
+    <ProjectGuid>{37A4AF87-3F7A-4CEE-963A-9F7F76BEA4EC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>WriteSerialArduino.Module1</StartupObject>
-    <RootNamespace>WriteSerialArduino</RootNamespace>
-    <AssemblyName>WriteSerialArduino</AssemblyName>
+    <StartupObject>RacingMonitor.Module1</StartupObject>
+    <RootNamespace>RacingMonitor</RootNamespace>
+    <AssemblyName>RacingMonitor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -20,7 +20,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>WriteSerialArduino.xml</DocumentationFile>
+    <DocumentationFile>RacingMonitor.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -30,7 +30,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>WriteSerialArduino.xml</DocumentationFile>
+    <DocumentationFile>RacingMonitor.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -67,7 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArduinoShiftLedController.vb" />
+    <Compile Include="iController.vb" />
+    <Compile Include="Main.vb" />
     <Compile Include="Module1.vb" />
+    <Compile Include="MonitoringData.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
