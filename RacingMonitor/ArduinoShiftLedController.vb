@@ -24,10 +24,30 @@ Public Class ArduinoShiftLedController
 
     Public Function OnIterate() As Integer Implements iController.OnIterate
         If lastEngineSpeed <> MonitoringData.EngineSpeed Then
-            If MonitoringData.EngineSpeed > 1000 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, True, True), 0, 4)
-            ElseIf MonitoringData.EngineSpeed <= 1000 Then
+            If MonitoringData.EngineSpeed < 7400 Then
+                SerialPort1.Write(Me.getLed(False, False, False, False, False, False, False, False, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 7400 And MonitoringData.EngineSpeed < 7510 Then
+                SerialPort1.Write(Me.getLed(True, False, False, False, False, False, False, False, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 7510 And MonitoringData.EngineSpeed < 7620 Then
+                SerialPort1.Write(Me.getLed(True, True, False, False, False, False, False, False, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 7620 And MonitoringData.EngineSpeed < 7730 Then
                 SerialPort1.Write(Me.getLed(True, True, True, False, False, False, False, False, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 7730 And MonitoringData.EngineSpeed < 7840 Then
+                SerialPort1.Write(Me.getLed(True, True, True, True, False, False, False, False, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 7840 And MonitoringData.EngineSpeed < 7950 Then
+                SerialPort1.Write(Me.getLed(True, True, True, True, True, False, False, False, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 7950 And MonitoringData.EngineSpeed < 8060 Then
+                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, False, False, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 8060 And MonitoringData.EngineSpeed < 8170 Then
+                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, False, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 8170 And MonitoringData.EngineSpeed < 8280 Then
+                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, False, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 8280 And MonitoringData.EngineSpeed < 8390 Then
+                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, False, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed >= 8390 And MonitoringData.EngineSpeed < 8500 Then
+                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, True, False), 0, 4)
+            ElseIf MonitoringData.EngineSpeed > 8500 Then
+                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, True, True), 0, 4)
             End If
 
             lastEngineSpeed = MonitoringData.EngineSpeed

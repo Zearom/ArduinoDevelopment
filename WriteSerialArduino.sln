@@ -5,6 +5,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WriteSerialArduino", "Write
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RacingMonitor", "RacingMonitor\RacingMonitor.vbproj", "{37A4AF87-3F7A-4CEE-963A-9F7F76BEA4EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedClasses", "SharedClasses\SharedClasses.csproj", "{5F1FC0BB-F8CA-499B-A8E8-4B9A914D8ED1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{37A4AF87-3F7A-4CEE-963A-9F7F76BEA4EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37A4AF87-3F7A-4CEE-963A-9F7F76BEA4EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37A4AF87-3F7A-4CEE-963A-9F7F76BEA4EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F1FC0BB-F8CA-499B-A8E8-4B9A914D8ED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1FC0BB-F8CA-499B-A8E8-4B9A914D8ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1FC0BB-F8CA-499B-A8E8-4B9A914D8ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1FC0BB-F8CA-499B-A8E8-4B9A914D8ED1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

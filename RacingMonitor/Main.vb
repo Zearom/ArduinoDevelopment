@@ -1,4 +1,7 @@
 ﻿Imports System.Threading
+Imports System.IO
+Imports AssettoCorsaSharedMemory
+Imports System.Runtime.InteropServices
 
 Public Class Main
     Private displayThread As Thread = Nothing
@@ -11,8 +14,28 @@ Public Class Main
         Dim arduinoController As ArduinoShiftLedController = New ArduinoShiftLedController
         displayThread.Start(arduinoController)
 
+        Dim statsFile As System.IO.MemoryMappedFiles.MemoryMappedFile = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("Local\acpmf_physics")
+
         While True
-            MonitoringData.EngineSpeed = Convert.ToInt32(Console.ReadLine)
+
+
+            Dim physicObject As IO.MemoryMappedFiles.MemoryMappedViewStream = statsFile.CreateViewStream()
+            Dim reader As BinaryReader = New BinaryReader(physicObject)
+
+            Dim sizeOfPhysic As Integer = System.Runtime.InteropServices.Marshal.SizeOf(GetType(Physics))
+            Dim bytes As Byte() = reader.ReadBytes(sizeOfPhysic)
+            Dim handle As GCHandle = GCHandle.Alloc(bytes, GCHandleType.Pinned)
+            Dim dataObject As Physics = CType(Marshal.PtrToStructure(handle.AddrOfPinnedObject(), GetType(Physics)), Physics)
+
+            MonitoringData.EngineSpeed = dataObject.Rpms
+
+            If MonitoringData.MaxEngineSpeed < dataObject.Rpms Then
+                MonitoringData.MaxEngineSpeed = dataObject.Rpms
+                Console.WriteLine(MonitoringData.EngineSpeed)
+            End If
+
+            handle.Free()
+            Thread.Sleep(10)
         End While
 
         MonitoringData.State = -1
