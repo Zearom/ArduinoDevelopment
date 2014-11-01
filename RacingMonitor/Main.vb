@@ -28,6 +28,7 @@ Public Class Main
             Dim dataObject As Physics = CType(Marshal.PtrToStructure(handle.AddrOfPinnedObject(), GetType(Physics)), Physics)
 
             MonitoringData.EngineSpeed = dataObject.Rpms
+            MonitoringData.GearBoxGear = dataObject.Gear
 
             If MonitoringData.MaxEngineSpeed < dataObject.Rpms Then
                 MonitoringData.MaxEngineSpeed = dataObject.Rpms
