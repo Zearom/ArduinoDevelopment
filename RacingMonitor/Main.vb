@@ -14,33 +14,84 @@ Public Class Main
         Dim arduinoController As ArduinoShiftLedController = New ArduinoShiftLedController
         displayThread.Start(arduinoController)
 
-        Dim statsFile As System.IO.MemoryMappedFiles.MemoryMappedFile = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("Local\acpmf_physics")
+        Try
+            Dim statsFile As System.IO.MemoryMappedFiles.MemoryMappedFile = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("Local\acpmf_physics")
+            Dim graphicsFile As System.IO.MemoryMappedFiles.MemoryMappedFile = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("Local\acpmf_graphics")
+            Dim staticFile As System.IO.MemoryMappedFiles.MemoryMappedFile = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("Local\acpmf_static")
 
-        While True
 
 
-            Dim physicObject As IO.MemoryMappedFiles.MemoryMappedViewStream = statsFile.CreateViewStream()
-            Dim reader As BinaryReader = New BinaryReader(physicObject)
+            While True
+                Dim dataObject As Physics = CType(GetDataFromSharedMemory(statsFile, GetType(Physics)), Physics)
 
-            Dim sizeOfPhysic As Integer = System.Runtime.InteropServices.Marshal.SizeOf(GetType(Physics))
-            Dim bytes As Byte() = reader.ReadBytes(sizeOfPhysic)
-            Dim handle As GCHandle = GCHandle.Alloc(bytes, GCHandleType.Pinned)
-            Dim dataObject As Physics = CType(Marshal.PtrToStructure(handle.AddrOfPinnedObject(), GetType(Physics)), Physics)
+                Dim staticObject As StaticInfo = CType(GetDataFromSharedMemory(staticFile, GetType(StaticInfo)), StaticInfo)
+                Dim graphicObject As Graphics = CType(GetDataFromSharedMemory(graphicsFile, GetType(Graphics)), Graphics)
+                MonitoringData.MaxEngineSpeed = staticObject.maxRpm
+                MonitoringData.EngineSpeed = dataObject.Rpms
+                MonitoringData.GearBoxGear = dataObject.Gear
 
-            MonitoringData.EngineSpeed = dataObject.Rpms
-            MonitoringData.GearBoxGear = dataObject.Gear
 
-            If MonitoringData.MaxEngineSpeed < dataObject.Rpms Then
-                MonitoringData.MaxEngineSpeed = dataObject.Rpms
-                Console.WriteLine(MonitoringData.EngineSpeed)
-            End If
+                Console.WriteLine(String.Format("{0}|{1}|{2}|{3}", dataObject.WheelAngularSpeed(0), dataObject.WheelAngularSpeed(1), dataObject.WheelAngularSpeed(2), dataObject.WheelAngularSpeed(3)))
 
-            handle.Free()
-            Thread.Sleep(10)
-        End While
+                Thread.Sleep(10)
+            End While
+        Catch ex As Exception
+            DoDemo()
+        End Try
 
         MonitoringData.State = -1
     End Sub
+
+    Public Sub DoDemo()
+        MonitoringData.MaxEngineSpeed = 8750
+        MonitoringData.GearBoxGear = 2
+        Dim baseSleep As Integer = 20
+        For i As Integer = 2100 To MonitoringData.MaxEngineSpeed Step 50
+            MonitoringData.EngineSpeed = i
+            Thread.Sleep(baseSleep)
+        Next
+        MonitoringData.GearBoxGear = 3
+        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+            MonitoringData.EngineSpeed = i
+            Thread.Sleep(baseSleep * 2)
+        Next
+        MonitoringData.GearBoxGear = 4
+        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+            MonitoringData.EngineSpeed = i
+            Thread.Sleep(baseSleep * 3)
+        Next
+        MonitoringData.GearBoxGear = 5
+        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+            MonitoringData.EngineSpeed = i
+            Thread.Sleep(baseSleep * 4)
+        Next
+        MonitoringData.GearBoxGear = 6
+        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+            MonitoringData.EngineSpeed = i
+            Thread.Sleep(baseSleep * 5)
+        Next
+        MonitoringData.GearBoxGear = 7
+        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+            MonitoringData.EngineSpeed = i
+            Thread.Sleep(baseSleep * 6)
+        Next
+
+    End Sub
+
+    Public Function GetDataFromSharedMemory(source As System.IO.MemoryMappedFiles.MemoryMappedFile, resultType As Type) As Object
+        Dim physicObject As IO.MemoryMappedFiles.MemoryMappedViewStream = source.CreateViewStream()
+        Dim reader As BinaryReader = New BinaryReader(physicObject)
+
+        Dim sizeOfPhysic As Integer = System.Runtime.InteropServices.Marshal.SizeOf(resultType)
+        Dim bytes As Byte() = reader.ReadBytes(sizeOfPhysic)
+        Dim handle As GCHandle = GCHandle.Alloc(bytes, GCHandleType.Pinned)
+
+        Dim result As Object = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), resultType)
+
+        handle.Free()
+
+        Return result
+    End Function
 
     Public Sub DoDisplayThread(controller As iController)
         controller.OnStart()
