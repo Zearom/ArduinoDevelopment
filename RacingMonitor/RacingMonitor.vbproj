@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArduinoShiftLedController.vb" />
+    <Compile Include="Graphics.vb" />
     <Compile Include="iController.vb" />
     <Compile Include="Main.vb" />
     <Compile Include="Module1.vb" />

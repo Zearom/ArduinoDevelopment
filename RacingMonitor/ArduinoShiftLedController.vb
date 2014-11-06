@@ -26,30 +26,30 @@ Public Class ArduinoShiftLedController
     Public Function OnIterate() As Integer Implements iController.OnIterate
         If lastEngineSpeed <> MonitoringData.EngineSpeed Or lastGear <> MonitoringData.GearBoxGear Then
             Dim graph As Integer = Math.Ceiling(MonitoringData.EngineSpeed / MonitoringData.MaxEngineSpeed * 80)
-            If MonitoringData.EngineSpeed < 7400 Then
+            If MonitoringData.EngineSpeed < 7300 Then
                 SerialPort1.Write(Me.getLed(False, False, False, False, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 7400 And MonitoringData.EngineSpeed < 7510 Then
+            ElseIf MonitoringData.EngineSpeed >= 7300 And MonitoringData.EngineSpeed < 7410 Then
                 SerialPort1.Write(Me.getLed(True, False, False, False, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 7510 And MonitoringData.EngineSpeed < 7620 Then
+            ElseIf MonitoringData.EngineSpeed >= 7410 And MonitoringData.EngineSpeed < 7520 Then
                 SerialPort1.Write(Me.getLed(True, True, False, False, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 7620 And MonitoringData.EngineSpeed < 7730 Then
+            ElseIf MonitoringData.EngineSpeed >= 7520 And MonitoringData.EngineSpeed < 7630 Then
                 SerialPort1.Write(Me.getLed(True, True, True, False, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 7730 And MonitoringData.EngineSpeed < 7840 Then
+            ElseIf MonitoringData.EngineSpeed >= 7630 And MonitoringData.EngineSpeed < 7740 Then
                 SerialPort1.Write(Me.getLed(True, True, True, True, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 7840 And MonitoringData.EngineSpeed < 7950 Then
+            ElseIf MonitoringData.EngineSpeed >= 7740 And MonitoringData.EngineSpeed < 7850 Then
                 SerialPort1.Write(Me.getLed(True, True, True, True, True, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 7950 And MonitoringData.EngineSpeed < 8060 Then
+            ElseIf MonitoringData.EngineSpeed >= 7850 And MonitoringData.EngineSpeed < 7960 Then
                 SerialPort1.Write(Me.getLed(True, True, True, True, True, True, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 8060 And MonitoringData.EngineSpeed < 8170 Then
+            ElseIf MonitoringData.EngineSpeed >= 7960 And MonitoringData.EngineSpeed < 8070 Then
                 SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 8170 And MonitoringData.EngineSpeed < 8280 Then
+            ElseIf MonitoringData.EngineSpeed >= 8070 And MonitoringData.EngineSpeed < 8180 Then
                 SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 8280 And MonitoringData.EngineSpeed < 8390 Then
+            ElseIf MonitoringData.EngineSpeed >= 8180 And MonitoringData.EngineSpeed < 8290 Then
                 SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed >= 8390 And MonitoringData.EngineSpeed < 8500 Then
+            ElseIf MonitoringData.EngineSpeed >= 8290 And MonitoringData.EngineSpeed < 8400 Then
                 SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, True, False, MonitoringData.GearBoxGear, graph), 0, 4)
-            ElseIf MonitoringData.EngineSpeed > 8500 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, True, True, MonitoringData.GearBoxGear, graph), 0, 4)
+            ElseIf MonitoringData.EngineSpeed > 8400 Then
+                SerialPort1.Write(Me.getLed(False, False, False, False, False, False, False, False, False, False, True, MonitoringData.GearBoxGear, graph), 0, 4)
             End If
 
             lastEngineSpeed = MonitoringData.EngineSpeed
