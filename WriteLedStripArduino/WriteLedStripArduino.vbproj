@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37A4AF87-3F7A-4CEE-963A-9F7F76BEA4EC}</ProjectGuid>
+    <ProjectGuid>{BCD0900C-EB70-49C0-ACE7-FE6041EDA73B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>RacingMonitor.Module1</StartupObject>
-    <RootNamespace>RacingMonitor</RootNamespace>
-    <AssemblyName>RacingMonitor</AssemblyName>
+    <StartupObject>WriteLedStripArduino.Module1</StartupObject>
+    <RootNamespace>WriteLedStripArduino</RootNamespace>
+    <AssemblyName>WriteLedStripArduino</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -20,7 +20,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>RacingMonitor.xml</DocumentationFile>
+    <DocumentationFile>WriteLedStripArduino.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -30,7 +30,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>RacingMonitor.xml</DocumentationFile>
+    <DocumentationFile>WriteLedStripArduino.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -66,13 +66,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArduinoShiftLedController.vb" />
-    <Compile Include="Graphics.vb" />
-    <Compile Include="iController.vb" />
     <Compile Include="LedStripDevice.vb" />
-    <Compile Include="Main.vb" />
     <Compile Include="Module1.vb" />
-    <Compile Include="MonitoringData.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -108,12 +103,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SharedClasses\SharedClasses.csproj">
-      <Project>{5f1fc0bb-f8ca-499b-a8e8-4b9a914d8ed1}</Project>
-      <Name>SharedClasses</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

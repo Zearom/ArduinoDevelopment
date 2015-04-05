@@ -19,8 +19,8 @@ Public Class Main
             Dim graphicsFile As System.IO.MemoryMappedFiles.MemoryMappedFile = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("Local\acpmf_graphics")
             Dim staticFile As System.IO.MemoryMappedFiles.MemoryMappedFile = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("Local\acpmf_static")
 
-
-
+            'FIXME
+            'TODO
             While True
                 Dim dataObject As Physics = CType(GetDataFromSharedMemory(statsFile, GetType(Physics)), Physics)
 
@@ -33,7 +33,7 @@ Public Class Main
 
                 Console.WriteLine(String.Format("{0}|{1}|{2}|{3}", dataObject.WheelAngularSpeed(0), dataObject.WheelAngularSpeed(1), dataObject.WheelAngularSpeed(2), dataObject.WheelAngularSpeed(3)))
 
-                Thread.Sleep(10)
+                Thread.Sleep(15)
             End While
         Catch ex As Exception
             DoDemo()

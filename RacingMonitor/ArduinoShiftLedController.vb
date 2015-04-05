@@ -1,15 +1,17 @@
 ﻿Imports System.IO.Ports
+Imports RacingMonitor.LedStripDevice
 
 Public Class ArduinoShiftLedController
     Implements iController
 
     Private SerialPort1 As System.IO.Ports.SerialPort = New System.IO.Ports.SerialPort
+    Private device As LedStripDevice = Nothing
     Private lastEngineSpeed As Integer = -1
     Private lastGear As Integer = -1
 
     Public Sub OnStart() Implements iController.OnStart
         SerialPort1.Close()
-        SerialPort1.PortName = "com3" 'change com port to match your Arduino port
+        SerialPort1.PortName = "com4" 'change com port to match your Arduino port
         SerialPort1.BaudRate = 9600
         SerialPort1.DataBits = 8
         SerialPort1.Parity = Parity.None
@@ -17,41 +19,44 @@ Public Class ArduinoShiftLedController
         SerialPort1.Handshake = Handshake.None
         SerialPort1.Encoding = System.Text.Encoding.Default 'very important!
         SerialPort1.Open()
+
+        device = New LedStripDevice(20, SerialPort1)
+        device.SetAllLeds(LedState.Off)
     End Sub
 
     Public Sub OnEnd() Implements iController.OnEnd
-        SerialPort1.Close()
+        device.disconnect()
     End Sub
 
     Public Function OnIterate() As Integer Implements iController.OnIterate
         If lastEngineSpeed <> MonitoringData.EngineSpeed Or lastGear <> MonitoringData.GearBoxGear Then
             Dim graph As Integer = Math.Ceiling(MonitoringData.EngineSpeed / MonitoringData.MaxEngineSpeed * 80)
             If MonitoringData.EngineSpeed < 7300 Then
-                SerialPort1.Write(Me.getLed(False, False, False, False, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetAllLeds(LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 7300 And MonitoringData.EngineSpeed < 7410 Then
-                SerialPort1.Write(Me.getLed(True, False, False, False, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 7410 And MonitoringData.EngineSpeed < 7520 Then
-                SerialPort1.Write(Me.getLed(True, True, False, False, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 7520 And MonitoringData.EngineSpeed < 7630 Then
-                SerialPort1.Write(Me.getLed(True, True, True, False, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 7630 And MonitoringData.EngineSpeed < 7740 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, False, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 7740 And MonitoringData.EngineSpeed < 7850 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, True, False, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 7850 And MonitoringData.EngineSpeed < 7960 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, False, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 7960 And MonitoringData.EngineSpeed < 8070 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, False, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color2}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 8070 And MonitoringData.EngineSpeed < 8180 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, False, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color3}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 8180 And MonitoringData.EngineSpeed < 8290 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, False, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color3, LedState.Color3}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed >= 8290 And MonitoringData.EngineSpeed < 8400 Then
-                SerialPort1.Write(Me.getLed(True, True, True, True, True, True, True, True, True, True, False, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color3, LedState.Color3, LedState.Color3}, LedState.Off)
             ElseIf MonitoringData.EngineSpeed > 8400 Then
-                SerialPort1.Write(Me.getLed(False, False, False, False, False, False, False, False, False, False, True, MonitoringData.GearBoxGear, graph), 0, 4)
+                device.SetAllLeds(LedState.Color3)
             End If
-
+            device.flushDisplay()
             lastEngineSpeed = MonitoringData.EngineSpeed
             lastGear = MonitoringData.GearBoxGear
         End If
