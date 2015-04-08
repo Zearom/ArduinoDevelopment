@@ -1,4 +1,5 @@
 ﻿Imports System.IO.Ports
+Imports System.LiehrIt.Arduino
 
 Module Module1
 
@@ -44,8 +45,15 @@ Module Module1
                 Threading.Thread.Sleep(5000)
                 device.SetAllLeds(LedStripDevice.LedState.Off)
                 device.flushDisplay()
+            ElseIf (currentCommand = "dev") Then
+                device.SetAllLeds(LedStripDevice.LedState.Off)
+                device.Set({New LedStripRange(0, 2, LedStripDevice.LedState.Color1), New LedStripRange(2, 18, LedStripDevice.LedState.Off)})
+                device.flushDisplay()
+            ElseIf (currentCommand = "clear") Then
+                device.SetAllLeds(LedStripDevice.LedState.Off)
+                device.flushDisplay()
             ElseIf (currentCommand = "seq1") Then
-                For delay As Integer = 50 To 5 Step -5
+                For delay As Integer = 50 To 10 Step -5
                     device.SetAllLeds(LedStripDevice.LedState.Off)
                     device.flushDisplay()
 

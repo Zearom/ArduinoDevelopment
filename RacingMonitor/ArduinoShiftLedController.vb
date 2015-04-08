@@ -1,5 +1,7 @@
 ﻿Imports System.IO.Ports
-Imports RacingMonitor.LedStripDevice
+Imports System.LiehrIt.Arduino.LedStripDevice
+Imports System.LiehrIt.Arduino
+Imports System.Reflection
 
 Public Class ArduinoShiftLedController
     Implements iController
@@ -8,8 +10,37 @@ Public Class ArduinoShiftLedController
     Private device As LedStripDevice = Nothing
     Private lastEngineSpeed As Integer = -1
     Private lastGear As Integer = -1
+    Private lastCar As String = ""
+    Private carRenderer As Hashtable = Nothing
+
+    Private Sub SearchCarRendererClasses()
+        Dim currentAssembly As Assembly = Assembly.GetCallingAssembly()
+        For Each type As Type In currentAssembly.GetTypes
+            Dim interfaceType As Type = Nothing
+
+            Try
+                interfaceType = type.GetInterface("RacingMonitor.iCarLedRenderer")
+            Catch ex As Exception
+                interfaceType = Nothing
+            End Try
+
+            If (Not IsNothing(interfaceType)) Then
+                LoadCarRenderer(type.FullName)
+            End If
+        Next
+    End Sub
+
+    Private Sub LoadCarRenderer(className As String)
+        Dim currentAssembly As Assembly = Assembly.GetCallingAssembly()
+        Dim currentCarRenderer As iCarLedRenderer = Activator.CreateInstance(currentAssembly.GetType(className))
+        Me.carRenderer.Add(currentCarRenderer.getCarModel, currentCarRenderer)
+    End Sub
 
     Public Sub OnStart() Implements iController.OnStart
+        Me.carRenderer = New Hashtable
+
+        SearchCarRendererClasses()
+
         SerialPort1.Close()
         SerialPort1.PortName = "com4" 'change com port to match your Arduino port
         SerialPort1.BaudRate = 9600
@@ -31,32 +62,14 @@ Public Class ArduinoShiftLedController
     Public Function OnIterate() As Integer Implements iController.OnIterate
         If lastEngineSpeed <> MonitoringData.EngineSpeed Or lastGear <> MonitoringData.GearBoxGear Then
             Dim graph As Integer = Math.Ceiling(MonitoringData.EngineSpeed / MonitoringData.MaxEngineSpeed * 80)
-            If MonitoringData.EngineSpeed < 7300 Then
-                device.SetAllLeds(LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 7300 And MonitoringData.EngineSpeed < 7410 Then
-                device.SetStates({LedState.Color1}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 7410 And MonitoringData.EngineSpeed < 7520 Then
-                device.SetStates({LedState.Color1, LedState.Color1}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 7520 And MonitoringData.EngineSpeed < 7630 Then
-                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 7630 And MonitoringData.EngineSpeed < 7740 Then
-                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 7740 And MonitoringData.EngineSpeed < 7850 Then
-                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 7850 And MonitoringData.EngineSpeed < 7960 Then
-                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 7960 And MonitoringData.EngineSpeed < 8070 Then
-                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color2}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 8070 And MonitoringData.EngineSpeed < 8180 Then
-                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color3}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 8180 And MonitoringData.EngineSpeed < 8290 Then
-                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color3, LedState.Color3}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed >= 8290 And MonitoringData.EngineSpeed < 8400 Then
-                device.SetStates({LedState.Color1, LedState.Color1, LedState.Color1, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color2, LedState.Color3, LedState.Color3, LedState.Color3}, LedState.Off)
-            ElseIf MonitoringData.EngineSpeed > 8400 Then
-                device.SetAllLeds(LedState.Color3)
+            CType(Me.carRenderer(MonitoringData.Car), iCarLedRenderer).OnIterate(Me.device)
+
+            If (lastCar <> MonitoringData.Car) Then
+                Dim colorConfig As System.Drawing.Color() = CType(Me.carRenderer(MonitoringData.Car), iCarLedRenderer).OnColorConfig()
+                device.SetColors(colorConfig(0), colorConfig(1), colorConfig(2))
+                lastCar = MonitoringData.Car
             End If
-            device.flushDisplay()
+
             lastEngineSpeed = MonitoringData.EngineSpeed
             lastGear = MonitoringData.GearBoxGear
         End If

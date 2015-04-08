@@ -37,17 +37,63 @@
         Return result
     End Function
 
+    Public Sub SetStates(values As LedState(), Optional restOfLedState As LedState = Nothing)
+        For i As Integer = 0 To values.Length - 1
+            Me.State(i) = values(i)
+        Next
+
+        If (Not IsNothing(restOfLedState) And (values.Length < Me.ledStates.Count)) Then
+            For i As Integer = values.Length To Me.ledStates.Count
+                Me.State(i - 1) = restOfLedState
+            Next
+        End If
+    End Sub
+
+    Public Sub [Set](range As LedStripRange)
+        Me.Set({range})
+    End Sub
+
+    Public Sub [Set](ranges As LedStripRange())
+        For Each range As LedStripRange In ranges
+            For ledIndex As Integer = range.Start To range.Start + range.Length - 1 Step 1
+                Me.State(ledIndex) = range.LedState
+            Next
+        Next
+    End Sub
+
     Public Sub SetAllLeds(ledState As LedState)
         For i As Integer = 0 To Me.ledStates.Count - 1
             ledStates(i) = ledState
         Next
     End Sub
 
-    Public Function disconnect()
+    Public Sub SetColors(color1 As System.Drawing.Color, color2 As System.Drawing.Color, color3 As System.Drawing.Color)
+        Me.SetColors(color1.R, color1.G, color1.B, color2.R, color2.G, color2.B, color3.R, color3.G, color3.B)
+
+    End Sub
+
+    Public Sub SetColors(color1Red As Integer, color1Green As Integer, color1Blue As Integer, color2Red As Integer, color2Green As Integer, color2Blue As Integer, color3Red As Integer, color3Green As Integer, color3Blue As Integer)
+        Dim byteColorArray(10) As Byte
+        byteColorArray(0) = Convert.ToByte(1)
+        byteColorArray(1) = Convert.ToByte(color1Red)
+        byteColorArray(2) = Convert.ToByte(color1Green)
+        byteColorArray(3) = Convert.ToByte(color1Blue)
+        byteColorArray(4) = Convert.ToByte(color2Red)
+        byteColorArray(5) = Convert.ToByte(color2Green)
+        byteColorArray(6) = Convert.ToByte(color2Blue)
+        byteColorArray(7) = Convert.ToByte(color3Red)
+        byteColorArray(8) = Convert.ToByte(color3Green)
+        byteColorArray(9) = Convert.ToByte(color3Blue)
+
+        Me.serialPort.Write(byteColorArray, 0, 10)
+
+    End Sub
+
+    Public Sub disconnect()
         If (Me.serialPort.IsOpen = True) Then
             Me.serialPort.Close()
         End If
-    End Function
+    End Sub
 
     Public Function getDisplayByteArray() As Byte()
         Dim result(6) As Byte

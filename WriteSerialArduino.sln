@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedClasses", "SharedClas
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WriteLedStripArduino", "WriteLedStripArduino\WriteLedStripArduino.vbproj", "{BCD0900C-EB70-49C0-ACE7-FE6041EDA73B}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LibArduino", "LibArduino\LibArduino.vbproj", "{4DBD475F-056C-4517-94CF-9B09DFD1437C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{BCD0900C-EB70-49C0-ACE7-FE6041EDA73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCD0900C-EB70-49C0-ACE7-FE6041EDA73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCD0900C-EB70-49C0-ACE7-FE6041EDA73B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DBD475F-056C-4517-94CF-9B09DFD1437C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBD475F-056C-4517-94CF-9B09DFD1437C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBD475F-056C-4517-94CF-9B09DFD1437C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBD475F-056C-4517-94CF-9B09DFD1437C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,7 +29,9 @@ Public Class Main
                 MonitoringData.MaxEngineSpeed = staticObject.maxRpm
                 MonitoringData.EngineSpeed = dataObject.Rpms
                 MonitoringData.GearBoxGear = dataObject.Gear
-
+                MonitoringData.Car = staticObject.carModel
+                'ks_bmw_m235i_racing
+                'p4-5_2011
 
                 Console.WriteLine(String.Format("{0}|{1}|{2}|{3}", dataObject.WheelAngularSpeed(0), dataObject.WheelAngularSpeed(1), dataObject.WheelAngularSpeed(2), dataObject.WheelAngularSpeed(3)))
 
@@ -45,6 +47,7 @@ Public Class Main
     Public Sub DoDemo()
         MonitoringData.MaxEngineSpeed = 8750
         MonitoringData.GearBoxGear = 2
+        MonitoringData.Car = "bmw_z4_gt3"
         Dim baseSleep As Integer = 20
         For i As Integer = 2100 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
