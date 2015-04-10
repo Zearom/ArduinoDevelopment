@@ -45,36 +45,36 @@ Public Class Main
     End Sub
 
     Public Sub DoDemo()
-        MonitoringData.MaxEngineSpeed = 8750
+        MonitoringData.MaxEngineSpeed = 7000
         MonitoringData.GearBoxGear = 2
-        MonitoringData.Car = "bmw_z4_gt3"
+        MonitoringData.Car = "ks_bmw_m235i_racing"
         Dim baseSleep As Integer = 20
         For i As Integer = 2100 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
             Thread.Sleep(baseSleep)
         Next
         MonitoringData.GearBoxGear = 3
-        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
             Thread.Sleep(baseSleep * 2)
         Next
         MonitoringData.GearBoxGear = 4
-        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
             Thread.Sleep(baseSleep * 3)
         Next
         MonitoringData.GearBoxGear = 5
-        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
             Thread.Sleep(baseSleep * 4)
         Next
         MonitoringData.GearBoxGear = 6
-        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
             Thread.Sleep(baseSleep * 5)
         Next
         MonitoringData.GearBoxGear = 7
-        For i As Integer = 6500 To MonitoringData.MaxEngineSpeed Step 50
+        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
             Thread.Sleep(baseSleep * 6)
         Next

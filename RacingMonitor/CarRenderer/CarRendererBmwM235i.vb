@@ -45,6 +45,6 @@ Public Class CarRendererBmwM235i
     End Sub
 
     Public Function OnColorConfig() As Drawing.Color() Implements iCarLedRenderer.OnColorConfig
-        Return {Drawing.Color.FromArgb(0, 0, 10, 0), Drawing.Color.FromArgb(0, 10, 10, 0), Drawing.Color.FromArgb(0, 0, 0, 10)}
+        Return {Drawing.Color.FromArgb(0, 0, 10, 0), Drawing.Color.FromArgb(0, 10, 10, 0), Drawing.Color.FromArgb(0, 10, 0, 0)}
     End Function
 End Class

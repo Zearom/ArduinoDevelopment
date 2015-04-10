@@ -26,26 +26,46 @@ Public Class CarRendererMcLarenMP412CGT3
         If MonitoringData.EngineSpeed <= 6100 Then
             device.SetAllLeds(LedState.Off)
         ElseIf MonitoringData.EngineSpeed > 6100 And MonitoringData.EngineSpeed < 6250 Then
-            device.Set({New LedStripRange(4, 1, LedState.Color1), New LedStripRange(5, 15, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 1, LedState.Color1)})
         ElseIf MonitoringData.EngineSpeed >= 6250 And MonitoringData.EngineSpeed < 6400 Then
-            device.Set({New LedStripRange(4, 2, LedState.Color1), New LedStripRange(6, 14, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 2, LedState.Color1)})
         ElseIf MonitoringData.EngineSpeed >= 6400 And MonitoringData.EngineSpeed < 6500 Then
-            device.Set({New LedStripRange(4, 3, LedState.Color1), New LedStripRange(7, 13, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 3, LedState.Color1)})
         ElseIf MonitoringData.EngineSpeed >= 6500 And MonitoringData.EngineSpeed < 6600 Then
-            device.Set({New LedStripRange(4, 4, LedState.Color1), New LedStripRange(8, 12, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1)})
         ElseIf MonitoringData.EngineSpeed >= 6600 And MonitoringData.EngineSpeed < 6700 Then
-            device.Set({New LedStripRange(4, 4, LedState.Color1), New LedStripRange(8, 1, LedState.Color2), New LedStripRange(9, 11, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1), New LedStripRange(12, 1, LedState.Color2)})
         ElseIf MonitoringData.EngineSpeed >= 6700 And MonitoringData.EngineSpeed < 6800 Then
-            device.Set({New LedStripRange(4, 4, LedState.Color1), New LedStripRange(8, 2, LedState.Color2), New LedStripRange(10, 10, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1), New LedStripRange(12, 2, LedState.Color2)})
         ElseIf MonitoringData.EngineSpeed >= 6800 And MonitoringData.EngineSpeed < 6900 Then
-            device.Set({New LedStripRange(4, 4, LedState.Color1), New LedStripRange(8, 3, LedState.Color2), New LedStripRange(11, 9, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1), New LedStripRange(12, 3, LedState.Color2)})
         ElseIf MonitoringData.EngineSpeed >= 6900 And MonitoringData.EngineSpeed < 7100 Then
-            device.Set({New LedStripRange(4, 4, LedState.Color1), New LedStripRange(8, 4, LedState.Color2), New LedStripRange(12, 8, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1), New LedStripRange(12, 4, LedState.Color2)})
         ElseIf MonitoringData.EngineSpeed >= 7100 And MonitoringData.EngineSpeed < 7450 Then
-            device.Set({New LedStripRange(4, 4, LedState.Color1), New LedStripRange(8, 4, LedState.Color2), New LedStripRange(12, 4, LedState.Color3), New LedStripRange(16, 4, LedState.Off)})
+            device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1), New LedStripRange(12, 4, LedState.Color2), New LedStripRange(16, 4, LedState.Color3)})
         ElseIf MonitoringData.EngineSpeed >= 7450 Then
-            device.SetAllLeds(LedState.Color3)
+            device.Set({New LedStripRange(8, 12, LedState.Color1)})
         End If
+
+        If (MonitoringData.GearBoxGear = 0) Then
+            'reverse
+            device.Set({New LedStripRange(0, 1, LedState.Color2)})
+        ElseIf (MonitoringData.GearBoxGear = 1) Then
+            device.Set({New LedStripRange(0, 1, LedState.Color3)})
+        ElseIf (MonitoringData.GearBoxGear = 2) Then
+            device.Set({New LedStripRange(0, 1, LedState.Color1)})
+        ElseIf (MonitoringData.GearBoxGear = 3) Then
+            device.Set({New LedStripRange(0, 2, LedState.Color1)})
+        ElseIf (MonitoringData.GearBoxGear = 4) Then
+            device.Set({New LedStripRange(0, 3, LedState.Color1)})
+        ElseIf (MonitoringData.GearBoxGear = 5) Then
+            device.Set({New LedStripRange(0, 4, LedState.Color1)})
+        ElseIf (MonitoringData.GearBoxGear = 6) Then
+            device.Set({New LedStripRange(0, 5, LedState.Color1)})
+        ElseIf (MonitoringData.GearBoxGear = 7) Then
+            device.Set({New LedStripRange(0, 6, LedState.Color1)})
+        End If
+
         device.flushDisplay()
         Return 10
     End Function
