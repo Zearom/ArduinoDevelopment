@@ -42,7 +42,7 @@ Public Class ArduinoShiftLedController
         SearchCarRendererClasses()
 
         SerialPort1.Close()
-        SerialPort1.PortName = "com4" 'change com port to match your Arduino port
+        SerialPort1.PortName = "com3" 'change com port to match your Arduino port
         SerialPort1.BaudRate = 9600
         SerialPort1.DataBits = 8
         SerialPort1.Parity = Parity.None
@@ -60,7 +60,6 @@ Public Class ArduinoShiftLedController
     End Sub
 
     Public Function OnIterate() As Integer Implements iController.OnIterate
-        If lastEngineSpeed <> MonitoringData.EngineSpeed Or lastGear <> MonitoringData.GearBoxGear Then
             Dim graph As Integer = Math.Ceiling(MonitoringData.EngineSpeed / MonitoringData.MaxEngineSpeed * 80)
             CType(Me.carRenderer(MonitoringData.Car), iCarLedRenderer).OnIterate(Me.device)
 
@@ -72,9 +71,8 @@ Public Class ArduinoShiftLedController
 
             lastEngineSpeed = MonitoringData.EngineSpeed
             lastGear = MonitoringData.GearBoxGear
-        End If
 
-        Return 10
+        Return 15
     End Function
 
     Public Function getLed(green1 As Boolean, green2 As Boolean, green3 As Boolean, orange1 As Boolean, orange2 As Boolean, orange3 As Boolean, orange4 As Boolean, red1 As Boolean, red2 As Boolean, red3 As Boolean, blue1 As Boolean, gear As Integer, graph As Integer) As Byte()

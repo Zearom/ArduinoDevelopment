@@ -45,40 +45,51 @@ Public Class Main
     End Sub
 
     Public Sub DoDemo()
-        MonitoringData.MaxEngineSpeed = 7000
+        MonitoringData.MaxEngineSpeed = 8000
         MonitoringData.GearBoxGear = 2
-        MonitoringData.Car = "ks_bmw_m235i_racing"
-        Dim baseSleep As Integer = 20
-        For i As Integer = 2100 To MonitoringData.MaxEngineSpeed Step 50
+        MonitoringData.Car = "mclaren_mp412c_gt3"
+        Dim baseSleep As Integer = 25
+        For i As Integer = 4000 To MonitoringData.MaxEngineSpeed Step 100
             MonitoringData.EngineSpeed = i
-            Thread.Sleep(baseSleep)
-        Next
-        MonitoringData.GearBoxGear = 3
-        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
-            MonitoringData.EngineSpeed = i
+            MonitoringData.GearBoxGear = 2
             Thread.Sleep(baseSleep * 2)
         Next
-        MonitoringData.GearBoxGear = 4
-        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
+        MonitoringData.GearBoxGear = 1
+        Thread.Sleep(250)
+        For i As Integer = 5500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
+            MonitoringData.GearBoxGear = 3
+            Thread.Sleep(baseSleep * 2)
+        Next
+        MonitoringData.GearBoxGear = 1
+        Thread.Sleep(250)
+        For i As Integer = 5500 To MonitoringData.MaxEngineSpeed Step 50
+            MonitoringData.EngineSpeed = i
+            MonitoringData.GearBoxGear = 4
             Thread.Sleep(baseSleep * 3)
         Next
-        MonitoringData.GearBoxGear = 5
-        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
+        MonitoringData.GearBoxGear = 1
+        Thread.Sleep(250)
+        For i As Integer = 5500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
+            MonitoringData.GearBoxGear = 5
             Thread.Sleep(baseSleep * 4)
         Next
-        MonitoringData.GearBoxGear = 6
-        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
+        MonitoringData.GearBoxGear = 1
+        Thread.Sleep(250)
+        For i As Integer = 5500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
+            MonitoringData.GearBoxGear = 6
             Thread.Sleep(baseSleep * 5)
         Next
-        MonitoringData.GearBoxGear = 7
-        For i As Integer = 4500 To MonitoringData.MaxEngineSpeed Step 50
+        MonitoringData.GearBoxGear = 1
+        Thread.Sleep(250)
+        For i As Integer = 5500 To MonitoringData.MaxEngineSpeed Step 50
             MonitoringData.EngineSpeed = i
+            MonitoringData.GearBoxGear = 7
             Thread.Sleep(baseSleep * 6)
         Next
-
+        Thread.Sleep(60 * 1000)
     End Sub
 
     Public Function GetDataFromSharedMemory(source As System.IO.MemoryMappedFiles.MemoryMappedFile, resultType As Type) As Object
