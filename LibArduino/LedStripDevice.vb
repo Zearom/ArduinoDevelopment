@@ -7,15 +7,22 @@
     End Enum
 
     Private ledStates As ArrayList = New ArrayList
-    Private serialPort As System.IO.Ports.SerialPort = Nothing
+    Private currentSerialPort As System.IO.Ports.SerialPort = Nothing
+    Private Shared statisticBytesSent As ULong = 0
+
+    Public Shared Sub resetStatistics()
+        LedStripDevice.statisticBytesSent = 0
+    End Sub
 
     Public Sub New(ledStripSize As Integer, serialPort As System.IO.Ports.SerialPort)
         For i As Integer = 0 To ledStripSize - 1
             ledStates.Add(LedState.Off)
         Next
-
-        Me.serialPort = serialPort
+        Me.lastDisplayByteArray = {}
+        Me.currentSerialPort = serialPort
     End Sub
+
+    Public Property EnableDuplicateCheck As Boolean = True
 
     Public Property State(Optional index As Integer = 0) As LedState
         Get
@@ -26,16 +33,54 @@
         End Set
     End Property
 
+    Public Shared ReadOnly Property BytesSent() As ULong
+        Get
+            Return LedStripDevice.statisticBytesSent
+        End Get
+    End Property
+
+    Private lastDisplayByteArray As Byte()
+
     Public Function flushDisplay() As Boolean
         Dim result As Boolean = True
-        If (Me.serialPort.IsOpen = False) Then
-            Me.serialPort.Open()
-        End If
 
-        Me.serialPort.Write(Me.getDisplayByteArray(), 0, 6)
+        Dim currentSendDisplayByteArray = Me.getDisplayByteArray()
+
+        If EnableDuplicateCheck Then
+            If (Me.byteArrayCompare(currentSendDisplayByteArray, lastDisplayByteArray) = False) Then
+                Me.sendBytes(currentSendDisplayByteArray)
+                lastDisplayByteArray = currentSendDisplayByteArray
+            End If
+        Else
+            Me.sendBytes(currentSendDisplayByteArray)
+        End If
 
         Return result
     End Function
+
+    Private Function byteArrayCompare(a As Byte(), b As Byte()) As Boolean
+        If (a.Length <> b.Length) Then
+            Return False
+        Else
+            For i As Integer = 0 To a.Length - 1
+                If (a(i) <> b(i)) Then
+                    Return False
+                End If
+            Next
+        End If
+
+        Return True
+    End Function
+
+
+
+    Private Sub sendBytes(data As Byte())
+        If (Me.currentSerialPort.IsOpen = False) Then
+            Me.currentSerialPort.Open()
+        End If
+        Me.currentSerialPort.Write(data, 0, data.Length)
+        LedStripDevice.statisticBytesSent += data.Length
+    End Sub
 
     Public Sub SetStates(values As LedState(), Optional restOfLedState As LedState = Nothing)
         For i As Integer = 0 To values.Length - 1
@@ -85,13 +130,13 @@
         byteColorArray(8) = Convert.ToByte(color3Green)
         byteColorArray(9) = Convert.ToByte(color3Blue)
 
-        Me.serialPort.Write(byteColorArray, 0, 10)
+        Me.sendBytes(byteColorArray)
 
     End Sub
 
     Public Sub disconnect()
-        If (Me.serialPort.IsOpen = True) Then
-            Me.serialPort.Close()
+        If (Me.currentSerialPort.IsOpen = True) Then
+            Me.currentSerialPort.Close()
         End If
     End Sub
 

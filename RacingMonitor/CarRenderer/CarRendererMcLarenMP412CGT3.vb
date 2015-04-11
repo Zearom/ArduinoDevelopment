@@ -39,10 +39,10 @@ Public Class CarRendererMcLarenMP412CGT3
         '6900 --> rote led
         '7100 --> 4 blaue leds
         '7450 --> Blau blinkend
-        If MonitoringData.EngineSpeed > 6100 And MonitoringData.EngineSpeed < 6250 Then
+        If MonitoringData.EngineSpeed < 6100 Then
             isNewState(0)
             device.Set({New LedStripRange(0, 20, LedState.Off)})
-        ElseIf MonitoringData.EngineSpeed > 6100 And MonitoringData.EngineSpeed < 6250 Then
+        ElseIf MonitoringData.EngineSpeed >= 6100 And MonitoringData.EngineSpeed < 6250 Then
             isNewState(1)
             device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 1, LedState.Color1)})
         ElseIf MonitoringData.EngineSpeed >= 6250 And MonitoringData.EngineSpeed < 6400 Then
@@ -73,10 +73,10 @@ Public Class CarRendererMcLarenMP412CGT3
             If isNewState(10) Then
                 device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1), New LedStripRange(12, 4, LedState.Color2), New LedStripRange(16, 4, LedState.Color3)})
             Else
-                If (((Me.durationState / 4) Mod 2) = 0) Then
+                If (((Me.durationState / 5) Mod 2) = 0) Then
                     device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1), New LedStripRange(12, 4, LedState.Color2), New LedStripRange(16, 4, LedState.Color3)})
                     'device.Set({New LedStripRange(8, 12, LedState.Color2)})
-                ElseIf (((Me.durationState / 4) Mod 2) = 1) Then
+                ElseIf (((Me.durationState / 5) Mod 2) = 1) Then
                     device.Set({New LedStripRange(0, 20, LedState.Off), New LedStripRange(8, 4, LedState.Color1), New LedStripRange(12, 4, LedState.Color2), New LedStripRange(16, 4, LedState.Off)})
                     'device.Set({New LedStripRange(8, 12, LedState.Off)})
                 End If

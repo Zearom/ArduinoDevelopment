@@ -35,10 +35,12 @@ Public Class Main
 
                 Console.WriteLine(String.Format("{0}|{1}|{2}|{3}", dataObject.WheelAngularSpeed(0), dataObject.WheelAngularSpeed(1), dataObject.WheelAngularSpeed(2), dataObject.WheelAngularSpeed(3)))
 
-                Thread.Sleep(15)
+                Thread.Sleep(10)
             End While
         Catch ex As Exception
+            System.LiehrIt.Arduino.LedStripDevice.resetStatistics()
             DoDemo()
+            Console.WriteLine(System.LiehrIt.Arduino.LedStripDevice.BytesSent)
         End Try
 
         MonitoringData.State = -1
@@ -89,7 +91,6 @@ Public Class Main
             MonitoringData.GearBoxGear = 7
             Thread.Sleep(baseSleep * 6)
         Next
-        Thread.Sleep(60 * 1000)
     End Sub
 
     Public Function GetDataFromSharedMemory(source As System.IO.MemoryMappedFiles.MemoryMappedFile, resultType As Type) As Object
